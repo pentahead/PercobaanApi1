@@ -5,16 +5,49 @@ namespace PercobaanApi1.Controllers
 {
     public class PersonController : Controller
     {
-        public IActionResult Index()
+        private string __constr;
+
+        public PersonController(IConfiguration configuration)
+        {
+            __constr = configuration.GetConnectionString("WebApiDatabase");
+        }
+
+        public IActionResult index()
         {
             return View();
         }
+
         [HttpGet("api/person")]
-        public ActionResult<Person> ListPerson()
+        public ActionResult<murid> ListPerson()
         {
-            PersonContext context = new PersonContext();
-            List<Person> ListPerson = context.ListPerson();
+            PersonContext context = new PersonContext(this.__constr);
+            List<murid> ListPerson = context.ListPerson();
             return Ok(ListPerson);
+        }
+
+        [HttpPost("api/murid/create")]
+        public IActionResult CreatePerson([FromBody] murid person)
+        {
+            PersonContext context = new PersonContext(this.__constr);
+            context.AddPerson(person);
+            return Ok("Person added successfully.");
+        }
+
+        [HttpPut("api/murid/update/{id}")]
+        public IActionResult UpdatePerson(int id, [FromBody] murid person)
+        {
+            person.id_person = id;
+            PersonContext context = new PersonContext(this.__constr);
+            context.UpdatePerson(person);
+            return Ok("Person updated successfully.");
+        }
+
+        [HttpDelete("api/murid/delete/{id}")]
+        public IActionResult DeletePerson(int id)
+        {
+            PersonContext context = new PersonContext(this.__constr);
+            context.DeletePerson(id);
+            return Ok("Person deleted successfully.");
         }
     }
 }

@@ -3,6 +3,14 @@ using System.Collections.Generic;
 
 namespace PercobaanApi1.Models
 {
+    public class murid
+    {
+        public int id_person { get; set; }
+        public string nama { get; set; }
+        public string alamat { get; set; }
+        public string email { get; set; }
+
+    }
     public class Person
     {
         public int id_person { get; set; }
