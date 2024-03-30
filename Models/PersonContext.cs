@@ -12,9 +12,9 @@ namespace PercobaanApi1.Models
         {
             __constr = pConstr;
         }
-        public List<murid> ListPerson()
+        public List<Person> ListPerson()
         {
-            List<murid> list1 = new List<murid>();
+            List<Person> list1 = new List<Person>();
             string query = string.Format(@"SELECT id_person, nama, alamat, email FROM person;");
             SqlDBHelper db = new SqlDBHelper(this.__constr);
             try
@@ -23,7 +23,7 @@ namespace PercobaanApi1.Models
                 NpgsqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    list1.Add(new murid()
+                    list1.Add(new Person()
                     {
                         id_person = int.Parse(reader["id_person"].ToString()),
                         nama = reader["nama"].ToString(),
@@ -41,7 +41,7 @@ namespace PercobaanApi1.Models
             return list1;
 
         }
-        public void AddPerson(murid person)
+        public void AddPerson(Person person)
         {
             string query = string.Format(@"INSERT INTO person (nama, alamat, email) VALUES ('{0}', '{1}', '{2}');",
                 person.nama, person.alamat, person.email);
@@ -59,7 +59,7 @@ namespace PercobaanApi1.Models
             }
         }
 
-        public void UpdatePerson(murid person)
+        public void UpdatePerson(Person person)
         {
             string query = string.Format(@"UPDATE person SET nama = '{0}', alamat = '{1}', email = '{2}' WHERE id_person = {3};",
                 person.nama, person.alamat, person.email, person.id_person);
